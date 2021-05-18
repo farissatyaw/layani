@@ -18,7 +18,7 @@ class CreateComplaintsTable extends Migration
             $table->string('tittle');
             $table->text('body');
             $table->string('location');
-            $table->string('photo');
+            $table->string('photo')->nullable();
             $table->boolean('isUserGenerated');
             $table->enum('status', ['unfinished', 'inprogress', 'finished']);
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
