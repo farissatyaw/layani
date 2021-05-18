@@ -51,7 +51,7 @@ class UserController extends Controller
             'name' => 'required|string',
             'email' => 'required|email',
             'password' => 'required|string|min:8',
-            'isAdmin' => 'required',
+            'is_admin' => 'required',
         ]);
 
         $user = User::create([

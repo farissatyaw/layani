@@ -18,7 +18,11 @@ Route::post('logout', [App\Http\Controllers\UserController::class, 'doLogout']);
 Route::post('register', [App\Http\Controllers\UserController::class, 'create']);
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('test', function () {
-        return 'test';
+        if (auth()->user()->tokenCan('owner')) {
+            return 'test';
+        } else {
+            return 'test2';
+        }
     });
     Route::put('update', [App\Http\Controllers\UserController::class, 'update']);
     Route::delete('delete', [App\Http\Controllers\UserController::class, 'destroy']);
