@@ -24,7 +24,7 @@ class User extends Authenticatable
         'password',
         'exp',
         'rank',
-        'isAdmin',
+        'is_admin',
         'photo',
     ];
 

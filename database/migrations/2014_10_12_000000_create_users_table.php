@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('photo')->nullable();
             $table->integer('exp')->default(0);
-            $table->string('rank');
+            $table->string('rank')->default('Level 0');
             $table->boolean('is_admin');
             $table->rememberToken();
             $table->timestamps();
