@@ -15,6 +15,6 @@ class Tag extends Model
 
     public function complaints()
     {
-        return $this->belongsToMany(App\Models\Complaint::class);
+        return $this->belongsToMany(Tag::class, 'complaint_tag', 'tag_id', 'complaint_id');
     }
 }

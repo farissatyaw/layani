@@ -46,4 +46,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function checkRank()
+    {
+        if ($this->exp >= 10 && $this->exp < 50) {
+            $this->rank = 'Level 1';
+        } elseif ($this->exp >= 50 && $this->exp < 100) {
+            $this->rank = 'Level 2';
+        } elseif ($this->exp >= 100 && $this->exp < 200) {
+            $this->rank = 'Level 3';
+        }
+        $this->save();
+    }
 }

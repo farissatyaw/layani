@@ -23,7 +23,7 @@ class UserController extends Controller
             'email' => ['The provided credentials are incorrect.'],
         ]);
         }
-        if ($user->isAdmin == false) {
+        if ($user->is_admin == false) {
             return response()->json([
                 'token' => $user->createToken('Personal Access Token', ['user'])->plainTextToken,
                 'status' => 'User',
@@ -49,16 +49,14 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'password' => 'required|string|min:8',
-            'is_admin' => 'required',
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'is_admin' => $request->isAdmin,
         ]);
 
         return response()->json([
@@ -73,7 +71,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function update()
+    public function update(Request $request)
     {
         $user = auth()->user();
 
@@ -82,7 +80,7 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => 'required|string|min:8',
         ]);
-
+        $data['password'] = Hash::make($data['password']);
         $user->update($data);
 
         return response()->json([
@@ -101,6 +99,15 @@ class UserController extends Controller
 
         return response()->json([
             'message' => 'Data '.$user->name.' berhasil di delete',
+        ], 200);
+    }
+
+    public function leaderboard()
+    {
+        $users = User::select('name', 'photo', 'exp', 'rank')->orderBy('exp')->get();
+
+        return response()->json([
+            'users' => $users,
         ], 200);
     }
 }

@@ -23,6 +23,14 @@ class Complaint extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(App\Models\Tag::class);
+        return $this->belongsToMany(Tag::class, 'complaint_tag', 'complaint_id', 'tag_id');
+    }
+
+    public function accept(User $user)
+    {
+        $this->admin_id = $user->id;
+        $this->datetaken = now();
+        $this->status = 'inprogress';
+        $this->save();
     }
 }
