@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Complaint;
+use App\Models\Log;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 
@@ -56,6 +57,11 @@ class ComplaintController extends Controller
             ], 422);
         }
         $complaint->accept($admin);
+        Log::create([
+            'user_id' => $admin->id,
+            'action' => 'Accept',
+            'complaint_id' => $complaint->id,
+        ]);
 
         return response()->json([
             'message' => 'Complaint '.$complaint->tittle.' telah diambil oleh admin '.$admin->name.' .',
@@ -79,6 +85,12 @@ class ComplaintController extends Controller
 
         $admin->exp += 10;
         $admin->checkRank();
+
+        Log::create([
+            'user_id' => $admin->id,
+            'action' => 'Finish',
+            'complaint_id' => $complaint->id,
+        ]);
 
         return response()->json([
             'message' => 'Complaint '.$complaint->tittle.'  telah diselesaikan.',

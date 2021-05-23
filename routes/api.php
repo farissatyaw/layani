@@ -27,10 +27,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     });
     Route::prefix('user')->group(function () {
         Route::get('/', [App\Http\Controllers\UserController::class, 'show']);
+        Route::put('update', [App\Http\Controllers\UserController::class, 'update']);
+        Route::delete('delete', [App\Http\Controllers\UserController::class, 'destroy']);
     });
     Route::get('leaderboard', [App\Http\Controllers\UserController::class, 'leaderboard']);
-    Route::put('update', [App\Http\Controllers\UserController::class, 'update']);
-    Route::delete('delete', [App\Http\Controllers\UserController::class, 'destroy']);
+    Route::get('activitylog', [App\Http\Controllers\UserController::class, 'activitylog']);
 
     Route::prefix('complaint')->group(function () {
         Route::get('index', [App\Http\Controllers\ComplaintController::class, 'index']);

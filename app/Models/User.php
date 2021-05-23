@@ -58,4 +58,9 @@ class User extends Authenticatable
         }
         $this->save();
     }
+
+    public function logs()
+    {
+        return $this->hasMany(Log::class, 'user_id')->latest();
+    }
 }

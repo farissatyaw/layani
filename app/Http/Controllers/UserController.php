@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Complaint;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -109,5 +110,18 @@ class UserController extends Controller
         return response()->json([
             'users' => $users,
         ], 200);
+    }
+
+    public function activitylog()
+    {
+        $logs = auth()->user()->logs;
+
+        foreach ($logs as $log) {
+            $log->complaint_id = Complaint::find($log->complaint_id);
+        }
+
+        return response()->json([
+            'logs' => $logs,
+        ], );
     }
 }
