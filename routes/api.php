@@ -27,6 +27,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     });
     Route::prefix('user')->group(function () {
         Route::get('/', [App\Http\Controllers\UserController::class, 'show']);
+        Route::get('/checkrank', [App\Http\Controllers\UserController::class, 'checkRank']);
         Route::put('update', [App\Http\Controllers\UserController::class, 'update']);
         Route::delete('delete', [App\Http\Controllers\UserController::class, 'destroy']);
     });

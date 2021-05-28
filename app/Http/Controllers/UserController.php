@@ -27,12 +27,14 @@ class UserController extends Controller
         if ($user->is_admin == false) {
             return response()->json([
                 'token' => $user->createToken('Personal Access Token', ['user'])->plainTextToken,
+                'data' => $user,
                 'status' => 'User',
             ], 200);
         }
 
         return response()->json([
             'token' => $user->createToken('Personal Access Token', ['admin'])->plainTextToken,
+            'data' => $user,
             'status' => 'admin',
         ], 200);
     }
@@ -61,6 +63,7 @@ class UserController extends Controller
         ]);
 
         return response()->json([
+            'message' => 'Register Sukses',
             'user' => $user,
         ], 200);
     }
@@ -105,11 +108,18 @@ class UserController extends Controller
 
     public function leaderboard()
     {
-        $users = User::select('name', 'photo', 'exp', 'rank')->orderBy('exp')->get();
+        $users = User::select('name', 'photo', 'exp', 'rank')->orderByDesc('exp')->get();
 
         return response()->json([
             'users' => $users,
         ], 200);
+    }
+
+    public function checkRank()
+    {
+        return response()->json([
+            'userexp' => User::select('id', 'exp', 'rank')->where('id', auth()->user()->id)->get(),
+        ]);
     }
 
     public function activitylog()

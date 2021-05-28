@@ -10,7 +10,7 @@ class Complaint extends Model
     use HasFactory;
 
     protected $fillable = [
-        'tittle',
+        'username',
         'body',
         'location',
         'photo',
@@ -19,6 +19,7 @@ class Complaint extends Model
         'user_id',
         'admin_id',
         'datetaken',
+        'tweettimestamp',
     ];
 
     public function tags()

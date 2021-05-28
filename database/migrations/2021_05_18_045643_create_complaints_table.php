@@ -15,15 +15,20 @@ class CreateComplaintsTable extends Migration
     {
         Schema::create('complaints', function (Blueprint $table) {
             $table->id();
-            $table->string('tittle');
+            $table->string('username');
             $table->text('body');
             $table->string('location');
-            $table->string('photo')->nullable();
-            $table->boolean('isUserGenerated')->default(0);
             $table->enum('status', ['unfinished', 'inprogress', 'finished']);
+            $table->dateTime('tweettimestamp');
+
+            $table->string('photo')->nullable();
+            $table->text('note')->nullable();
+            $table->boolean('isUserGenerated')->default(0);
+            $table->dateTime('datetaken')->nullable();
+
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('admin_id')->nullable()->references('id')->on('users')->onDelete('cascade');
-            $table->dateTime('datetaken')->nullable();
+
             $table->timestamps();
         });
     }

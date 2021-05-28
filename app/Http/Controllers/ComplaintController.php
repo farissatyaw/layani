@@ -12,20 +12,22 @@ class ComplaintController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'tittle' => 'required|string',
+            'username' => 'required|string',
             'body' => 'required|string',
             'location' => 'required|string',
             'tag' => 'required',
+            'tweettimestamp' => 'required',
         ]);
 
         $complaint = Complaint::create([
-            'tittle' => $request->tittle,
+            'username' => $request->username,
             'body' => $request->body,
             'location' => $request->location,
             'status' => 'unfinished',
+            'tweettimestamp' => $request->tweettimestamp,
         ]);
 
-        $tags = explode(' ', $request->tag);
+        $tags = explode(',', $request->tag);
         foreach ($tags as $key => $tag) {
             $temp_tag = Tag::firstOrCreate([
                 'name' => $tag,
@@ -52,6 +54,12 @@ class ComplaintController extends Controller
     {
         $admin = auth()->user();
         if ($complaint->admin_id) {
+            if ($complaint->status == 'finished') {
+                return response()->json([
+                    'message' => 'Complaint ini telah selesai. Mohon pilih complaint lain',
+                ], 422);
+            }
+
             return response()->json([
                 'message' => 'Complaint ini telah diambil oleh admin lain. Coba lagi di lain waktu. ',
             ], 422);
@@ -64,7 +72,7 @@ class ComplaintController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Complaint '.$complaint->tittle.' telah diambil oleh admin '.$admin->name.' .',
+            'message' => 'Complaint '.$complaint->tittle.' sukses diambil oleh admin '.$admin->name.' .',
         ], 200);
     }
 
@@ -73,9 +81,11 @@ class ComplaintController extends Controller
         $admin = auth()->user();
         $request->validate([
             'photo' => 'required|image|max:5120',
+            'note' => 'required|string',
         ]);
 
         $complaint->status = 'finished';
+        $complaint->note = $request->note;
         $complaint->save();
 
         $file = $request->file('photo');
