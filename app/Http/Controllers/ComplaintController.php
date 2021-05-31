@@ -6,6 +6,7 @@ use App\Models\Complaint;
 use App\Models\Log;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ComplaintController extends Controller
 {
@@ -39,6 +40,46 @@ class ComplaintController extends Controller
             'message' => 'Penambahan Complaint Success',
             'complaint' => $complaint,
         ], 200);
+    }
+
+    public function createComplaint()
+    {
+        $client = new \GuzzleHttp\Client();
+        $endpoint = 'http://3ea3365b9d6b.ngrok.io/';
+        $response = $client->request('GET', $endpoint);
+        $contents = json_decode($response->getBody(), true);
+        //dd($contents);
+        foreach ($contents as $content) {
+            $complaint = Complaint::create([
+                'username' => $content['Username'],
+                'body' => $content['Text'],
+                'tweettimestamp' => $content['Timestamp'],
+                'location' => 'Jakarta',
+                'status' => 'unfinished',
+            ]);
+            $tags1 = ['jalan', 'rusak'];
+            $tags2 = ['listrik', 'mati'];
+            if (Str::containsAll($complaint['Text'], $tags1)) {
+                foreach ($tags1 as $tag1) {
+                    $temptag = Tag::firstOrCreate([
+                        'name' => $tag1,
+                    ]);
+                    $complaint->tags()->attach($tag1);
+                }
+                $complaint->tags()->attach($tag);
+            } elseif (Str::containsAll($complaint['Text'], $tags2)) {
+                foreach ($tags2 as $tag2) {
+                    $temptag = Tag::firstOrCreate([
+                    'name' => $tag2,
+                ]);
+                    $complaint->tags()->attach($tag2);
+                }
+            }
+        }
+
+        return response()->json([
+            'message' => 'Sukses',
+        ]);
     }
 
     public function index()

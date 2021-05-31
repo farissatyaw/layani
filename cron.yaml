@@ -1,0 +1,4 @@
+cron:
+  - description: "Fetching Complaints"
+    url: /fetchcomplaints
+    schedule: every 2 hours
