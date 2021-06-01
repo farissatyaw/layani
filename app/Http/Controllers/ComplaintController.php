@@ -48,7 +48,7 @@ class ComplaintController extends Controller
         $endpoint = 'http://34.101.238.167:5000';
         $response = $client->request('GET', $endpoint);
         $contents = json_decode($response->getBody(), true);
-        dd($contents);
+        //dd($contents);
         foreach ($contents as $content) {
             $complaint = Complaint::create([
                 'username' => $content['Username'],
