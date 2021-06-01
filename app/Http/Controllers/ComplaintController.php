@@ -113,7 +113,7 @@ class ComplaintController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Complaint '.$complaint->tittle.' sukses diambil oleh admin '.$admin->name.' .',
+            'message' => 'Complaint sukses diambil oleh admin '.$admin->name.' .',
         ], 200);
     }
 
@@ -146,7 +146,7 @@ class ComplaintController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Complaint '.$complaint->tittle.'  telah diselesaikan.',
+            'message' => 'Complaint telah diselesaikan.',
         ]);
     }
 }
