@@ -91,6 +91,13 @@ class ComplaintController extends Controller
         ], 200);
     }
 
+    public function show(Complaint $complaint)
+    {
+        return response()->json([
+            'complaint' => $complaint,
+        ], 200);
+    }
+
     public function acceptComplaint(Complaint $complaint)
     {
         $admin = auth()->user();
