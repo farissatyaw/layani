@@ -121,7 +121,7 @@ class ComplaintController extends Controller
     {
         $admin = auth()->user();
         $request->validate([
-            'photo' => 'required|image|max:5120',
+            'photo' => 'image|max:5120',
             'note' => 'required|string',
         ]);
 
@@ -129,10 +129,12 @@ class ComplaintController extends Controller
         $complaint->note = $request->note;
         $complaint->save();
 
-        $file = $request->file('photo');
-        $path = '/storage'.substr($file->store('public/complaints'), 6);
-        $complaint->photo = $path;
-        $complaint->save();
+        if ($request->photo) {
+            $file = $request->file('photo');
+            $path = '/storage'.substr($file->store('public/complaints'), 6);
+            $complaint->photo = $path;
+            $complaint->save();
+        }
 
         $admin->exp += 10;
         $admin->checkRank();
