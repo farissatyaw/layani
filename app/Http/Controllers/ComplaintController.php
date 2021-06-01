@@ -45,10 +45,10 @@ class ComplaintController extends Controller
     public function createComplaint()
     {
         $client = new \GuzzleHttp\Client();
-        $endpoint = 'http://3ea3365b9d6b.ngrok.io/';
+        $endpoint = 'http://34.101.238.167:5000';
         $response = $client->request('GET', $endpoint);
         $contents = json_decode($response->getBody(), true);
-        //dd($contents);
+        dd($contents);
         foreach ($contents as $content) {
             $complaint = Complaint::create([
                 'username' => $content['Username'],
