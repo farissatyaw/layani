@@ -25,6 +25,15 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
+## How to Install The Project
+
+1. Clone This Repository
+2. Run composer Install on this directory
+3. Copy .env.example to .env and change the database name to your desired database name
+4. php artisan key:generate
+5. php artisan migrate --seed
+6. php artisan serve
+
 If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
 ## Laravel Sponsors
