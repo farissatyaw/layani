@@ -84,7 +84,7 @@ class ComplaintController extends Controller
 
     public function index()
     {
-        $complaints = Complaint::with('tags:id,name')->orderBy('status')->get();
+        $complaints = Complaint::where('status', 'unfinished')->with('tags:id,name')->orderBy('status')->get();
 
         return response()->json([
             'complaints' => $complaints,
